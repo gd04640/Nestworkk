@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Review Submission – Designer</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Review Submission</h1>
+
+<div class="navbar">
+    <a href="designer-dashboard.html">Designer Dashboard</a>
+    <a href="pending-submissions.html">Pending Submissions</a>
+    <a href="completed-reviews.html">Completed Reviews</a>
+</div>
+
+<div class="container" id="details"></div>
+
+<script>
+    let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
+    let completed = JSON.parse(localStorage.getItem("completedReviews")) || [];
+    const reviewID = Number(localStorage.getItem("currentReviewID"));
+
+    const submission = submissions.find(s => s.id === reviewID);
+
+    const div = document.getElementById("details");
+
+    div.innerHTML = `
+        <h2>${submission.roomName}</h2>
+        <p><b>Size:</b> ${submission.roomSize}</p>
+        <p><b>Description:</b> ${submission.roomDesc}</p>
+
+        <label>Add Design Notes:</label>
+        <textarea id="notes"></textarea>
+
+        <button onclick="saveFeedback()">Save Feedback</button>
+        <button onclick="markCompleted()">Mark as Completed</button>
+    `;
+
+    function saveFeedback() {
+        submission.designerNotes = document.getElementById("notes").value;
+        localStorage.setItem("submissions", JSON.stringify(submissions));
+        alert("Feedback saved!");
+    }
+
+    function markCompleted() {
+        submission.designerNotes = document.getElementById("notes").value;
+        submission.completedAt = new Date().toLocaleString();
+
+        completed.push(submission);
+        localStorage.setItem("completedReviews", JSON.stringify(completed));
+
+        alert("Submission marked as completed!");
+        window.location.href = "completed-reviews.html";
+    }
+</script>
+
+</body>
+</html>
