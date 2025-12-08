@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pending Submissions – Designer</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Pending Submissions</h1>
+
+<div class="navbar">
+    <a href="designer-dashboard.html">Designer Dashboard</a>
+    <a href="pending-submissions.html">Pending Submissions</a>
+    <a href="completed-reviews.html">Completed Reviews</a>
+</div>
+
+<div class="container" id="pendingList"></div>
+
+<script>
+    let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
+    let completed = JSON.parse(localStorage.getItem("completedReviews")) || [];
+
+    // Pending = all submissions not in completed list
+    let pending = submissions.filter(sub => !completed.some(c => c.id === sub.id));
+
+    const listDiv = document.getElementById("pendingList");
+
+    if (pending.length === 0) {
+        listDiv.innerHTML = "<p>No pending submissions.</p>";
+    }
+
+    pending.forEach((item, index) => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+            <strong>${item.roomName}</strong><br>
+            <p><b>Size:</b> ${item.roomSize}</p>
+            <p><b>Description:</b> ${item.roomDesc}</p>
+
+            <button onclick="review(${item.id})">Review Submission</button>
+        `;
+
+        listDiv.appendChild(card);
+    });
+
+    function review(id) {
+        localStorage.setItem("currentReviewID", id);
+        window.location.href = "review-submission.html";
+    }
+</script>
+
+</body>
+</html>
