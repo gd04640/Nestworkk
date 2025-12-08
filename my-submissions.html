@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Submissions – Nestwork</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>My Submissions</h1>
+
+    <div class="navbar">
+        <a href="homeowner-dashboard.html">🏠 Dashboard</a>
+        <a href="add-new-room.html">Add New Room</a>
+        <a href="my-submissions.html">My Submissions</a>
+    </div>
+
+
+    <div class="container" id="list"></div>
+
+    <script>
+        const example = {
+            roomName: "Living Room",
+            roomSize: "14ft x 18ft",
+            roomDesc: "Bright space, wants modern boho",
+            status: "Under Review"
+        };
+
+        let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
+        let displayList = [example, ...submissions];
+
+        const listDiv = document.getElementById("list");
+
+        if (displayList.length === 0) {
+            listDiv.innerHTML = "<p>No submissions yet.</p>";
+        }
+
+        displayList.forEach((item, index) => {
+            const card = document.createElement("div");
+            card.className = "card";
+
+            card.innerHTML = `
+                <strong>${item.roomName}</strong><br>
+                <p><b>Size:</b> ${item.roomSize}</p>
+                <p><b>Description:</b> ${item.roomDesc}</p>
+                <p><b>Status:</b> ${item.status}</p>
+
+                ${index === 0 ? "" : `
+                <button onclick="editSubmission(${index - 1})">Edit</button>
+                <button onclick="deleteSubmission(${index - 1})">Delete</button>
+                `}
+            `;
+
+            listDiv.appendChild(card);
+        });
+
+        function deleteSubmission(i) {
+            submissions.splice(i, 1);
+            localStorage.setItem("submissions", JSON.stringify(submissions));
+            location.reload();
+        }
+
+        function editSubmission(i) {
+            alert("Edit feature coming soon!");
+        }
+    </script>
+
+</body>
+</html>
