@@ -20,34 +20,53 @@
 </div>
 
 <script>
+    // Load current review
     const submission = JSON.parse(localStorage.getItem("currentReview"));
     const allSubs = JSON.parse(localStorage.getItem("submissions")) || [];
-
     const div = document.getElementById("reviewBox");
 
-    div.innerHTML = `
-        <div class="card">
-            <h2>${submission.roomName}</h2>
-            <p><b>Size:</b> ${submission.roomSize}</p>
-            <p><b>Description:</b> ${submission.roomDesc}</p>
+    if (!submission) {
+        div.innerHTML = "<p>No submission selected.</p>";
+    } else {
+        div.innerHTML = `
+            <div class="card">
+                <h2>${submission.roomName}</h2>
+                <p><b>Size:</b> ${submission.roomSize}</p>
+                <p><b>Description:</b> ${submission.roomDesc}</p>
 
-            <label>Add Designer Notes:</label>
-            <textarea id="notes" placeholder="Write notes..."></textarea>
+                <label><b>Add Designer Notes:</b></label>
+                <textarea id="notes" placeholder="Write your design feedback here..."></textarea>
 
-            <button onclick="save()">Save Review</button>
-        </div>
-    `;
+                <button onclick="saveReview()">Save Feedback</button>
+                <button onclick="markCompleted()">Mark as Completed</button>
+            </div>
+        `;
+    }
 
-    function save() {
-        const notes = document.getElementById("notes").value;
+    function saveReview() {
+        const notes = document.getElementById("notes").value.trim();
+        if (!notes) return alert("Please write some notes first!");
+
+        const match = allSubs.find(s => s.roomName === submission.roomName);
+        match.notes = notes;
+        match.status = "In Progress";
+
+        localStorage.setItem("submissions", JSON.stringify(allSubs));
+        alert("Feedback saved!");
+    }
+
+    function markCompleted() {
+        const notes = document.getElementById("notes").value.trim();
+        if (!notes) return alert("Please enter feedback before completing!");
 
         const match = allSubs.find(s => s.roomName === submission.roomName);
         match.notes = notes;
         match.status = "Completed Review";
+        match.completedAt = new Date().toLocaleString();
 
         localStorage.setItem("submissions", JSON.stringify(allSubs));
 
-        alert("Review saved!");
+        alert("Review marked as completed!");
         window.location.href = "designer-completed.html";
     }
 </script>
