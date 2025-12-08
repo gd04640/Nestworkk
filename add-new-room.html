@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add New Room – Nestwork</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Add New Room</h1>
+
+    <div class="navbar">
+        <a href="homeowner-dashboard.html">🏠 Dashboard</a>
+        <a href="add-new-room.html">Add New Room</a>
+        <a href="my-submissions.html">My Submissions</a>
+    </div>
+
+
+    <div class="container">
+        <form id="roomForm">
+            <label>Room Name *</label>
+            <input id="roomName" required>
+
+            <label>Room Measurements *</label>
+            <input id="roomSize" placeholder="e.g., 12ft x 10ft" required>
+
+            <label>Upload Photos (optional)</label>
+            <input id="roomPhotos" type="file" multiple>
+
+            <label>Description & Design Goals *</label>
+            <textarea id="roomDesc" required></textarea>
+
+            <button type="submit">Submit Room for Review</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("roomForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById("roomName").value;
+            const size = document.getElementById("roomSize").value;
+            const desc = document.getElementById("roomDesc").value;
+
+            if (!name || !size || !desc) {
+                alert("Please fill all required fields.");
+                return;
+            }
+
+            let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
+
+            submissions.push({
+                roomName: name,
+                roomSize: size,
+                roomDesc: desc,
+                status: "Pending Review"
+            });
+
+            localStorage.setItem("submissions", JSON.stringify(submissions));
+
+            window.location.href = "my-submissions.html";
+        });
+    </script>
+
+</body>
+</html>
