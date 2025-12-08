@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nestwork – Login</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Welcome to Nestwork</h1>
+
+    <div class="container">
+
+        <form onsubmit="event.preventDefault(); login();">
+
+            <label>Email:</label>
+            <input id="email" type="email" required>
+
+            <label>Password:</label>
+            <input id="password" type="password" required>
+
+            <label>Login As:</label>
+            <select id="role" required>
+                <option value="">-- Select Role --</option>
+                <option value="homeowner">Homeowner</option>
+                <option value="designer">Designer</option>
+            </select>
+
+            <button type="submit">Login</button>
+        </form>
+
+    </div>
+
+    <script>
+        function login() {
+            const role = document.getElementById("role").value;
+
+            if (role === "homeowner") {
+                window.location.href = "homeowner-dashboard.html";
+            } 
+            else if (role === "designer") {
+                window.location.href = "designer-dashboard.html";
+            } 
+            else {
+                alert("Please select a role!");
+            }
+        }
+    </script>
+
+</body>
+</html>
