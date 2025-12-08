@@ -1,3 +1,6 @@
+/* =========================
+   Global Styles
+   ========================= */
 body {
     font-family: Arial, sans-serif;
     background: #FAF7F2;
@@ -10,8 +13,12 @@ h1 {
     text-align: center;
     color: #6A8CAF;
     font-weight: 700;
+    margin-bottom: 25px;
 }
 
+/* =========================
+   Container
+   ========================= */
 .container {
     max-width: 600px;
     margin: auto;
@@ -21,34 +28,41 @@ h1 {
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-label {
-    font-weight: bold;
+/* =========================
+   Dashboard
+   ========================= */
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
 }
 
-input, textarea {
+/* Dashboard Buttons (links) */
+.dash-btn {
+    display: block;
     width: 100%;
-    padding: 10px;
-    margin-top: 6px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 15px;
-}
-
-button {
+    max-width: 400px;
+    text-align: center;
     background: #6A8CAF;
-    color: white;
-    border: none;
-    padding: 12px 20px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 14px 20px;
     border-radius: 10px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 15px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
-button:hover {
+.dash-btn:hover {
     background: #577696;
+    transform: translateY(-2px);
 }
 
+/* =========================
+   Cards
+   ========================= */
 .card {
     background: #fff;
     border-radius: 14px;
@@ -62,6 +76,49 @@ button:hover {
     color: #6A8CAF;
 }
 
+/* =========================
+   Forms
+   ========================= */
+label {
+    font-weight: bold;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+input:focus, textarea:focus {
+    border-color: #6A8CAF;
+    outline: none;
+}
+
+/* =========================
+   Buttons
+   ========================= */
+button {
+    background: #6A8CAF;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 15px;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #577696;
+}
+
+/* =========================
+   Navbar
+   ========================= */
 .navbar {
     width: 100%;
     text-align: center;
