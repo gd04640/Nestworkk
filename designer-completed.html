@@ -19,15 +19,18 @@
 
     <script>
         let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
-
-        const done = submissions.filter(s => s.status === "Completed Review" || s.status === "Approved" || s.status === "Rejected");
         const list = document.getElementById("completedList");
+
+        // Completed = Approved, Rejected, Completed Review
+        const done = submissions.filter(
+            s => s.status === "Completed Review" || s.status === "Approved" || s.status === "Rejected"
+        );
 
         if (done.length === 0) {
             list.innerHTML = "<p>No completed reviews yet.</p>";
         }
 
-        done.forEach(item => {
+        done.forEach((item, index) => {
             const card = document.createElement("div");
             card.className = "card";
 
@@ -35,10 +38,30 @@
                 <strong>${item.roomName}</strong><br>
                 <p><b>Status:</b> ${item.status}</p>
                 <p><b>Notes:</b> ${item.notes || "No notes added"}</p>
+
+                <button onclick="moveToPending('${item.roomName}')">Move to Pending</button>
+                <button onclick="deleteSubmission('${item.roomName}')">Delete</button>
             `;
 
             list.appendChild(card);
         });
+
+        function moveToPending(roomName) {
+            let match = submissions.find(s => s.roomName === roomName);
+            match.status = "Pending Review";
+
+            localStorage.setItem("submissions", JSON.stringify(submissions));
+            alert("Submission moved back to Pending.");
+            location.reload();
+        }
+
+        function deleteSubmission(roomName) {
+            submissions = submissions.filter(s => s.roomName !== roomName);
+
+            localStorage.setItem("submissions", JSON.stringify(submissions));
+            alert("Submission deleted.");
+            location.reload();
+        }
     </script>
 
 </body>
