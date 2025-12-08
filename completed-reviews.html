@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Completed Reviews – Designer</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Completed Reviews</h1>
+
+<div class="navbar">
+    <a href="designer-dashboard.html">Designer Dashboard</a>
+    <a href="pending-submissions.html">Pending Submissions</a>
+    <a href="completed-reviews.html">Completed Reviews</a>
+</div>
+
+<div class="container" id="completedList"></div>
+
+<script>
+    let completed = JSON.parse(localStorage.getItem("completedReviews")) || [];
+
+    const listDiv = document.getElementById("completedList");
+
+    if (completed.length === 0) {
+        listDiv.innerHTML = "<p>No completed reviews yet.</p>";
+    }
+
+    completed.forEach((item, index) => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+            <strong>${item.roomName}</strong><br>
+            <p><b>Size:</b> ${item.roomSize}</p>
+            <p><b>Description:</b> ${item.roomDesc}</p>
+            <p><b>Designer Notes:</b> ${item.designerNotes || "No notes added."}</p>
+            <p><b>Completed At:</b> ${item.completedAt}</p>
+
+            <button onclick="reopen(${item.id})">Reopen Review</button>
+        `;
+
+        listDiv.appendChild(card);
+    });
+
+    function reopen(id) {
+        let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
+
+        // remove from completed
+        completed = completed.filter(c => c.id !== id);
+        localStorage.setItem("completedReviews", JSON.stringify(completed));
+
+        alert("Review reopened and sent back to Pending.");
+        window.location.href = "pending-submissions.html";
+    }
+</script>
+
+</body>
+</html>
