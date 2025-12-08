@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Completed Reviews – Designer</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Completed Reviews</h1>
+
+    <div class="navbar">
+        <a href="designer-dashboard.html">🏠 Dashboard</a>
+        <a href="designer-pending.html">Pending</a>
+        <a href="designer-completed.html">Completed</a>
+    </div>
+
+    <div class="container" id="completedList"></div>
+
+    <script>
+        let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
+
+        const done = submissions.filter(s => s.status === "Completed Review" || s.status === "Approved" || s.status === "Rejected");
+        const list = document.getElementById("completedList");
+
+        if (done.length === 0) {
+            list.innerHTML = "<p>No completed reviews yet.</p>";
+        }
+
+        done.forEach(item => {
+            const card = document.createElement("div");
+            card.className = "card";
+
+            card.innerHTML = `
+                <strong>${item.roomName}</strong><br>
+                <p><b>Status:</b> ${item.status}</p>
+                <p><b>Notes:</b> ${item.notes || "No notes added"}</p>
+            `;
+
+            list.appendChild(card);
+        });
+    </script>
+
+</body>
+</html>
