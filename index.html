@@ -24,33 +24,31 @@
 
     </div>
 
-<script>
-async function login() {
-const email = document.getElementById("email").value.trim();
-const password = document.getElementById("password").value.trim();
+    <script>
+        function login() {
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
 
-try {
-    const response = await fetch("users.json");
-    const data = await response.json();
+            // Hardcoded user credentials with roles
+            const users = {
+                "arianagrande@designer.com": {
+                    password: "1234",
+                    dashboard: "designer-dashboard.html"
+                },
+                "taylorswift@homeowner.com": {
+                    password: "1234",
+                    dashboard: "homeowner-dashboard.html"
+                }
+            };
 
-    const user = data.users.find(u => u.email === email && u.password === password);
-
-    if (user) {
-        if (user.role === "designer") {
-            window.location.href = "designer-dashboard.html";
-        } else if (user.role === "homeowner") {
-            window.location.href = "homeowner-dashboard.html";
+            if (users[email] && users[email].password === password) {
+                // Redirect to the correct dashboard
+                window.location.href = users[email].dashboard;
+            } else {
+                alert("Invalid email or password!");
+            }
         }
-    } else {
-        alert("Invalid email or password!");
-    }
-} catch (error) {
-    console.error("Error loading user data:", error);
-    alert("Could not load user data.");
-}
-}
-</script>
-
+    </script>
 
 </body>
 </html>
