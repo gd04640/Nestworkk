@@ -1,10 +1,12 @@
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>My Submissions – Nestwork</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css">
+
+    <!-- ⭐ Load seed data BEFORE any script runs -->
+    <script src="seed.js"></script>
 </head>
 <body>
 
@@ -16,27 +18,19 @@
         <a href="my-submissions.html">📝 My Submissions</a>
     </div>
 
-
     <div class="container" id="list"></div>
 
     <script>
-        const example = {
-            roomName: "Living Room",
-            roomSize: "14ft x 18ft",
-            roomDesc: "Bright space, wants modern boho",
-            status: "Pending Review"
-        };
-
+        // ⭐ Load submissions from localStorage (includes seed data)
         let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
-        let displayList = [example, ...submissions];
 
         const listDiv = document.getElementById("list");
 
-        if (displayList.length === 0) {
+        if (submissions.length === 0) {
             listDiv.innerHTML = "<p>No submissions yet.</p>";
         }
 
-        displayList.forEach((item, index) => {
+        submissions.forEach((item, index) => {
             const card = document.createElement("div");
             card.className = "card";
 
@@ -46,10 +40,8 @@
                 <p><b>Description:</b> ${item.roomDesc}</p>
                 <p><b>Status:</b> ${item.status}</p>
 
-                ${index === 0 ? "" : `
-                <button onclick="editSubmission(${index - 1})">Edit</button>
-                <button onclick="deleteSubmission(${index - 1})">Delete</button>
-                `}
+                <button onclick="editSubmission(${index})">Edit</button>
+                <button onclick="deleteSubmission(${index})">Delete</button>
             `;
 
             listDiv.appendChild(card);
