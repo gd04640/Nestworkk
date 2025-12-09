@@ -19,13 +19,6 @@
             <label>Password:</label>
             <input id="password" type="password" required>
 
-            <label>Login As:</label>
-            <select id="role" required>
-                <option value="">-- Select Role --</option>
-                <option value="homeowner">Homeowner</option>
-                <option value="designer">Designer</option>
-            </select>
-
             <button type="submit">Login</button>
         </form>
 
@@ -33,16 +26,26 @@
 
     <script>
         function login() {
-            const role = document.getElementById("role").value;
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
 
-            if (role === "homeowner") {
-                window.location.href = "homeowner-dashboard.html";
-            } 
-            else if (role === "designer") {
-                window.location.href = "designer-dashboard.html";
-            } 
-            else {
-                alert("Please select a role!");
+            // Hardcoded user credentials with roles
+            const users = {
+                "arianagrande@designer.com": {
+                    password: "1234",
+                    dashboard: "designer-dashboard.html"
+                },
+                "taylorswift@homeowner.com": {
+                    password: "1234",
+                    dashboard: "homeowner-dashboard.html"
+                }
+            };
+
+            if (users[email] && users[email].password === password) {
+                // Redirect to the correct dashboard
+                window.location.href = users[email].dashboard;
+            } else {
+                alert("Invalid email or password!");
             }
         }
     </script>
